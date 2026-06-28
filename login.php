@@ -96,7 +96,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
 // Automatic Routing Guard
 if (isset($_SESSION['user_role'])) {
-    header("Location: index.html");
+    header("Location: index.php");
     exit;
 }
 
