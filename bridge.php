@@ -2,7 +2,7 @@
 set_time_limit(0);
 
 $port = "\\\\.\\COM3"; // ⚠️ Update this if your Device Manager COM assignment changes!
-$apiUrl = "http://localhost/appdev_final/api.php?action=create_record";
+$apiUrl = "https://flood-system-web-production.up.railway.app/api.php?action=create_record";
 
 // This file will hold the current reading so your web frontend can look at it instantly
 $liveCacheFile = "C:\\xampp\\htdocs\\appdev_final\\live_status.json"; 
