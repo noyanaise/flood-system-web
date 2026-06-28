@@ -18,10 +18,9 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
-    'domain' => $_SERVER['HTTP_HOST'],
-    'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+    'secure' => true,
     'httponly' => true,
-    'samesite' => 'Strict'
+    'samesite' => 'Lax'
 ]);
 session_start();
 
