@@ -33,21 +33,18 @@ header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 
-$host    = getenv('MYSQLHOST') ?: 'localhost';
-$port    = getenv('MYSQLPORT') ?: '3306';
-$db      = getenv('MYSQLDATABASE') ?: 'flood_system'; 
-$user    = getenv('MYSQLUSER') ?: 'root';
-$pass    = getenv('MYSQLPASSWORD') ?: ''; 
-$charset = 'utf8mb4';
+$host = getenv("MYSQLHOST");
+$port = getenv("MYSQLPORT");
+$db   = getenv("MYSQLDATABASE");
+$user = getenv("MYSQLUSER");
+$pass = getenv("MYSQLPASSWORD");
 
-$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
-try {
-    $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-} catch (PDOException $e) {
-    echo json_encode(["error" => "Database connection failed: " . $e->getMessage()]);
-    exit;
-}
+$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
+$pdo = new PDO($dsn,$user,$pass,[
+    PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC
+]);
 $method = $_SERVER['REQUEST_METHOD'];
 
 // Helper to get raw POST data inputs safely
