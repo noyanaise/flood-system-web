@@ -166,10 +166,13 @@ $mail->SMTPOptions = array(
 
                 $mail->isHTML(true);
                 $mail->Subject = 'Your Login Verification Code';
-                $mail->Body    = "Your One-Time Password (OTP) for login is <b>$otp</b>. It will expire in 10 minutes.";
-                $mail->AltBody = "Your One-Time Password (OTP) for login is $otp. It will expire in 10 minutes.";
+$mail->Body    = "Your One-Time Password (OTP) for login is <b>$otp</b>. It will expire in 10 minutes.";
+$mail->AltBody = "Your One-Time Password (OTP) for login is $otp. It will expire in 10 minutes.";
 
-                $mail->send();
+echo "Reached mail section";
+exit;
+
+$mail->send();
 
                 // 4. Put the identity metadata into temporary stage variables.
                 // Critical: Do NOT set $_SESSION['user_role'] yet, otherwise your routing guard will bypass OTP.
