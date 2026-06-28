@@ -104,11 +104,13 @@ if (isset($_SESSION['user_role'])) {
 // ROUTE REGION: POST REQUEST VALIDATION & RUNTIME CHECK
 // ========================================================
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $host = 'localhost';
-    $db   = 'flood_system'; 
-    $user = 'root';
-    $pass = '';
-    $dsn  = "mysql:host=$host;dbname=$db;charset=utf8mb4";
+   $host = $_ENV['MYSQLHOST'] ?? getenv('MYSQLHOST');
+$port = $_ENV['MYSQLPORT'] ?? getenv('MYSQLPORT');
+$db   = $_ENV['MYSQLDATABASE'] ?? getenv('MYSQLDATABASE');
+$user = $_ENV['MYSQLUSER'] ?? getenv('MYSQLUSER');
+$pass = $_ENV['MYSQLPASSWORD'] ?? getenv('MYSQLPASSWORD');
+
+$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
     $username = trim($_POST['username'] ?? '');
     $password = trim($_POST['password'] ?? '');
