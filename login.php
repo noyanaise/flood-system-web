@@ -181,15 +181,7 @@ $_SESSION['username'] = $userRow['username'];
 header("Location: index.html");
 exit;
 
-                // 4. Put the identity metadata into temporary stage variables.
-                // Critical: Do NOT set $_SESSION['user_role'] yet, otherwise your routing guard will bypass OTP.
-                $_SESSION['temp_user_id']  = $userRow['id'];
-                $_SESSION['temp_username'] = $userRow['username'];
-                $_SESSION['temp_role']     = $userRow['role'];
-
-                // Redirect user to the OTP form page
-                header("Location: otp.html");
-                exit;
+            
 
             } catch (Exception $e) {
                 die("Mailer Error: " . $e->getMessage());
