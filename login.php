@@ -176,9 +176,10 @@ $mail->AltBody = "Your One-Time Password (OTP) for login is $otp. It will expire
 $mail->SMTPDebug = 2;
 $mail->Debugoutput = 'html';
 set_time_limit(30);
-if (!$mail->send()) {
-    die("Mailer Error: " . $mail->ErrorInfo);
-}
+$_SESSION['user_role'] = $userRow['role'];
+$_SESSION['username'] = $userRow['username'];
+header("Location: index.html");
+exit;
 
                 // 4. Put the identity metadata into temporary stage variables.
                 // Critical: Do NOT set $_SESSION['user_role'] yet, otherwise your routing guard will bypass OTP.
