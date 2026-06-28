@@ -2,6 +2,9 @@
 session_start();
 header('Content-Type: application/json');
 
+echo json_encode($_SESSION);
+exit;
+
 // Checks if session contains valid access keys matching active logging rules
 if (isset($_SESSION['user_role'])) {
     // Synchronize both session keys so that all parts of your app speak the same language
