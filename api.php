@@ -33,19 +33,29 @@ header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 
-$host = getenv("MYSQLHOST");
-$port = getenv("MYSQLPORT");
-$db   = getenv("MYSQLDATABASE");
-$user = getenv("MYSQLUSER");
-$pass = getenv("MYSQLPASSWORD");
+// Database Configuration - Explicitly reads Railway environment variables
+$host = $_ENV['MYSQLHOST'] ?? getenv('MYSQLHOST') ?: '127.0.0.1';
+$db   = $_ENV['MYSQLDATABASE'] ?? getenv('MYSQLDATABASE') ?: 'flood_system'; 
+$user = $_ENV['MYSQLUSER'] ?? getenv('MYSQLUSER') ?: 'root';
+$pass = $_ENV['MYSQLPASSWORD'] ?? getenv('MYSQLPASSWORD') ?: ''; 
+$port = $_ENV['MYSQLPORT'] ?? getenv('MYSQLPORT') ?: '3306';
+$charset = 'utf8mb4';
 
-$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
+// Force an absolute TCP connection if running on localhost to avoid Unix Socket issues
+if ($host === 'localhost') {
+    $host = '127.0.0.1';
+}
 
-$pdo = new PDO($dsn,$user,$pass,[
-    PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC
-]);
-$method = $_SERVER['REQUEST_METHOD'];
+$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
+try {
+    $pdo = new PDO($dsn, $user, $pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    ]);
+} catch (PDOException $e) {
+    echo json_encode(["error" => "Database connection failed: " . $e->getMessage()]);
+    exit;
+}
 
 // Helper to get raw POST data inputs safely
 $rawInput = file_get_contents('php://input');
