@@ -170,8 +170,9 @@ $mail->Body    = "Your One-Time Password (OTP) for login is <b>$otp</b>. It will
 $mail->AltBody = "Your One-Time Password (OTP) for login is $otp. It will expire in 10 minutes.";
 
 
-$mail->SMTPDebug = 2;
-
+$mail->SMTPDebug = 3;
+$mail->Debugoutput = 'html';
+set_time_limit(30);
 if (!$mail->send()) {
     die("Mailer Error: " . $mail->ErrorInfo);
 }
