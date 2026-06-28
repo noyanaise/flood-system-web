@@ -152,8 +152,8 @@ $mail->Timeout = 15;
 $mail->SMTPKeepAlive = false;
 $mail->Username = 'gumpaljojo13@gmail.com';
 $mail->Password = 'admin123';
-$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-$mail->Port = 587;                   
+$mail->Port = 465;
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;       
 
 // ADD THIS BLOCK BELOW TO BYPASS LOCAL SSL CERTIFICATE BLOCKS
 $mail->SMTPOptions = array(
