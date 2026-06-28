@@ -4,6 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Capture the HTTP request method securely (GET, POST, etc.)
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
 /**
  * ==========================================================
  * BACKEND ROLE-BASED ACCESS CONTROL (RBAC) FIREWALL
@@ -21,6 +24,7 @@ if (in_array($action, $admin_only_actions)) {
     
     if (empty($current_role) || strtolower(trim($current_role)) !== 'admin') {
         http_response_code(403); 
+        header("Content-Type: application/json");
         echo json_encode(['error' => 'Access Denied: Administrator privileges strictly required.']);
         exit;
     }
