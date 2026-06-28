@@ -144,13 +144,16 @@ $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
             try {
                 $mail->isSMTP();
                 // Force XAMPP to resolve Gmail using IPv4 instead of failing on IPv6
-$mail->Host       = gethostbyname('smtp.gmail.com'); 
+$mail->Host = 'smtp.gmail.com';
 
-$mail->SMTPAuth   = true;
-$mail->Username   = 'floodsystem6246@gmail.com';       // Your actual Gmail address
-$mail->Password   = 'ssco dghg qmfl crrq';        // Your 16-character App Password
-$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; 
-$mail->Port       = 587;                          
+$mail->isSMTP();
+$mail->SMTPAuth = true;
+$mail->Timeout = 15;
+$mail->SMTPKeepAlive = false;
+$mail->Username = 'gumpaljojo13@gmail.com';
+$mail->Password = 'admin123';
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+$mail->Port = 587;                   
 
 // ADD THIS BLOCK BELOW TO BYPASS LOCAL SSL CERTIFICATE BLOCKS
 $mail->SMTPOptions = array(
@@ -170,7 +173,7 @@ $mail->Body    = "Your One-Time Password (OTP) for login is <b>$otp</b>. It will
 $mail->AltBody = "Your One-Time Password (OTP) for login is $otp. It will expire in 10 minutes.";
 
 
-$mail->SMTPDebug = 3;
+$mail->SMTPDebug = 2;
 $mail->Debugoutput = 'html';
 set_time_limit(30);
 if (!$mail->send()) {
