@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Records - Smart Flood Barrier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body id="appBody">
+
+  <header>
+    <nav class="navbar">
+      <div class="logo"><h1>Smart Flood Barrier System</h1></div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="records.html" class="nav-link active">Records</a>
+        <a href="about.html" class="nav-link">About Us</a>
+      </div>
+    </nav>
+  </header> 
+  
+  <div id="statusBar">
+  <button onclick="send('A')">AUTO MODE</button>
+  <button onclick="send('S')" style="background: #2ecc71; color: #000;">FORCE SAFE</button>
+  <button onclick="send('D')" style="background: #e74c3c; color: #fff;">FORCE DANGER</button>
+  
+ <button id="btnConnectSerial" onclick="toggleSerialLink()" style="background: var(--primary-blue); color: #fff; font-weight: 600; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: background 0.2s;">
+  🔌 Connect Arduino
+</button>
+  
+  <span id="connStatus" style="margin-left: 10px;">System Ready</span>
+  <span id="serialStatusIndicator" style="margin-left: 10px; opacity: 0.8; font-size: 14px;"></span>
+</div>
+
+  <main>
+    <div class="page-content">
+     
+
+      <div class="filter-ribbon" style="display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-end; background: #111827; padding: 15px; border-radius: 8px; border: 1px solid #374151;">
+        <div>
+          <label style="display:block; margin-bottom:5px; color:#9ca3af; font-size:13px;">Condition:</label>
+          <select id="filterCondition" style="background:#1f2937; color:#fff; border:1px solid #374151; padding:8px; border-radius:4px; width:140px;">
+            <option value="">All Conditions</option>
+            <option value="SAFE">SAFE</option>
+            <option value="WARNING">WARNING</option>
+            <option value="DANGER">DANGER</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; margin-bottom:5px; color:#9ca3af; font-size:13px;">Start Date:</label>
+          <input type="date" id="startDate" style="background:#1f2937; color:#fff; border:1px solid #374151; padding:8px; border-radius:4px;">
+        </div>
+        <div>
+          <label style="display:block; margin-bottom:5px; color:#9ca3af; font-size:13px;">End Date:</label>
+          <input type="date" id="endDate" style="background:#1f2937; color:#fff; border:1px solid #374151; padding:8px; border-radius:4px;">
+        </div>
+        <button onclick="applyFilters()" style="background:#0ea5e9; color:#fff; border:none; padding:10px 15px; border-radius:4px; cursor:pointer; font-weight:600; height:38px;">Apply Filters</button>
+        
+        <button onclick="openCreateModal()" class="admin-only" style="background:#2ecc71; color:#fff; border:none; padding:10px 15px; border-radius:4px; cursor:pointer; font-weight:600; margin-left: auto; height:38px;">+ Add New Record</button>
+      </div>
+
+      <div id="summaryBox" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px;"></div>
+
+      <div style="background: #111827; border-radius: 8px; padding: 15px; overflow-x: auto; border: 1px solid #374151;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+          <thead>
+            <tr style="border-bottom: 2px solid #374151; color: #9ca3af; font-size:14px;">
+              <th style="padding: 12px 10px;">Timestamp</th>
+              <th style="padding: 12px 10px;">Sensor Distance</th>
+              <th style="padding: 12px 10px;">Water Level</th>
+              <th style="padding: 12px 10px;">Barrier Status</th>
+              <th style="padding: 12px 10px;">Threat Status</th>
+              <th class="actions-col" style="padding: 12px 10px; text-align: center;">Administrative Action</th>
+            </tr>
+          </thead>
+          <tbody id="log"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div id="crudModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeCrudModal()">&times;</span>
+      <h2 id="modalTitle">Modify Database Entry Frame</h2>
+      
+      <form id="crudForm" onsubmit="handleCrudSubmit(event)">
+        <input type="hidden" id="recordId">
+        
+        <div class="form-group">
+          <label>Sensor Distance (cm):</label>
+          <input type="number" id="recordDistance" step="0.01" required placeholder="e.g. 5.25">
+        </div>
+        
+        <div class="form-group">
+          <label>Calculated Water Level (cm):</label>
+          <input type="number" id="recordWaterLevel" step="0.01" required placeholder="e.g. 4.15">
+        </div>
+        
+        <div class="form-group">
+          <label>Barrier Status:</label>
+          <select id="recordBarrier">
+            <option value="0">CLOSED / RETRACTED</option>
+            <option value="1">DEPLOYED / OPEN</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Condition Status Metric:</label>
+          <select id="recordCondition">
+            <option value="SAFE">SAFE</option>
+            <option value="WARNING">WARNING</option>
+            <option value="DANGER">DANGER</option>
+          </select>
+        </div>
+        
+        <button type="submit" class="btn-save">Commit Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="auth-guard.js?v=3"></script>
+  <script src="script.js?v=3"></script>
+ 
+  
+
+</body>
+</html>

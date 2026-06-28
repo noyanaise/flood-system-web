@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Registration - FloodShield</title>
+    <style>
+      :root {
+        --bg-app: #090d16;
+        --bg-surface: #111827;
+        --bg-input: #1f2937;
+        --color-blue: #0ea5e9;
+        --color-danger: #ef4444;
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+        --border-glow: rgba(255, 255, 255, 0.06);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: var(--bg-app);
+        color: var(--text-main);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+
+      .login-box {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-glow);
+        padding: 40px;
+        width: 100%;
+        max-width: 400px;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .login-header {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+      .logo-mark {
+        width: 12px;
+        height: 12px;
+        background: #10b981;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 10px #10b981;
+        margin-bottom: 8px;
+      }
+      .login-header h2 {
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+      .login-header p {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
+      .input-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 18px;
+      }
+      .input-wrapper label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: var(--text-muted);
+        letter-spacing: 0.05em;
+      }
+      .input-wrapper input {
+        background: var(--bg-input);
+        border: 1px solid var(--border-glow);
+        color: var(--text-main);
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        outline: none;
+        transition: border-color 0.2s;
+        width: 100%;
+      }
+      .input-wrapper input:focus {
+        border-color: #10b981;
+      }
+
+      .btn-submit {
+        width: 100%;
+        background: #10b981;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-top: 6px;
+      }
+      .btn-submit:hover {
+        background: #34d399;
+      }
+
+      .err-msg {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        color: var(--color-danger);
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        text-align: center;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .nav-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+      .nav-link a {
+        color: var(--color-blue);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .nav-link a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-box">
+      <div class="login-header">
+        <div class="logo-mark"></div>
+        <h2>Operator Provisions</h2>
+        <p>Register New Telemetry Handle</p>
+      </div>
+
+      <div id="errorNotice" class="err-msg"></div>
+
+      <form action="register.php" method="POST">
+        <div class="input-wrapper">
+          <label for="username">Operator Handle</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            required
+            autocomplete="off"
+            placeholder="Alphanumeric & underscores only"
+          />
+        </div>
+
+        <div class="input-wrapper">
+          <label for="email">Communication Address (Email)</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            autocomplete="off"
+            placeholder="operator@domain.com"
+          />
+        </div>
+
+        <div class="input-wrapper">
+          <label for="password">Security Cryptokey</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            placeholder="Minimum 6 characters"
+          />
+        </div>
+
+        <button type="submit" class="btn-submit">
+          Provision Security Account
+        </button>
+      </form>
+
+      <div class="nav-link">
+        Existing authorization clear? <a href="login.html">Return to Gateway</a>
+      </div>
+    </div>
+
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const errorBox = document.getElementById("errorNotice");
+
+      if (urlParams.get("error") === "exists") {
+        errorBox.innerText = "Provisioning error: Operator handle or email is already allocated.";
+        errorBox.style.display = "block";
+      } else if (urlParams.get("error") === "invalid_input") {
+        errorBox.innerText = "Validation failure: Handles must be alphanumeric strings.";
+        errorBox.style.display = "block";
+      } else if (urlParams.get("error") === "invalid_email") {
+        errorBox.innerText = "Validation failure: Invalid communication address format.";
+        errorBox.style.display = "block";
+      } else if (urlParams.get("error") === "weak_password") {
+        errorBox.innerText = "Validation failure: Cryptokey must contain at least 6 characters.";
+        errorBox.style.display = "block";
+      } else if (urlParams.get("error") === "db_fault") {
+        errorBox.innerText = "System error: Telemetry registration sequence database exception.";
+        errorBox.style.display = "block";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard - Smart Flood Barrier</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo"><h1>Smart Flood Barrier System</h1></div>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="dashboard.html" class="nav-link active">Dashboard</a>
+          <a href="records.html" class="nav-link">Records</a>
+          <a href="about.html" class="nav-link">About Us</a>
+        </div>
+      </nav>
+    </header>
+
+    <div id="statusBar">
+      <button onclick="send('A')">AUTO MODE</button>
+      <button onclick="send('S')" style="background: #2ecc71; color: #000">
+        FORCE SAFE
+      </button>
+      <button onclick="send('D')" style="background: #e74c3c; color: #fff">
+        FORCE DANGER
+      </button>
+
+      <button
+        id="btnConnectSerial"
+        onclick="toggleSerialLink()"
+        style="
+          background: var(--primary-blue);
+          color: #fff;
+          font-weight: 600;
+          border: none;
+          padding: 6px 12px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background 0.2s;
+        "
+      >
+        🔌 Connect Arduino
+      </button>
+
+      <span id="connStatus" style="margin-left: 10px">System Ready</span>
+      <span
+        id="serialStatusIndicator"
+        style="margin-left: 10px; opacity: 0.8; font-size: 14px"
+      ></span>
+    </div>
+
+    <main>
+      <div class="page-content">
+        <div class="summary-container" id="summaryBox"></div>
+
+        <div class="chartBox" id="dataInterpretation" style="margin-bottom: 20px; padding: 20px; border-left: 5px solid #0ea5e9; flex-direction: column; display: flex;">
+          <h3 style="margin-bottom: 10px; font-size: 15px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+            🤖 Automated Data Interpretation & Core Analysis
+          </h3>
+          <p id="interpretationText" style="color: var(--text-muted); font-size: 14px; line-height: 1.6; margin: 0;">
+            Connecting to system background streams to formulate telemetry context algorithms...
+          </p>
+        </div>
+
+        <div class="charts">
+          <div class="chartBox" id="mainChartBox">
+            <h3>Water Level (Live Trend)</h3>
+            <div class="canvas-container">
+              <canvas id="waterChart"></canvas>
+            </div>
+          </div>
+          <div class="chartBox">
+            <h3>Status Distribution</h3>
+            <div class="canvas-container">
+              <canvas id="statusChart"></canvas>
+            </div>
+          </div>
+          <div class="chartBox">
+            <h3>Barrier Activations</h3>
+            <div class="canvas-container">
+              <canvas id="activityChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <p
+          id="lastUpdated"
+          style="margin-bottom: 15px; font-size: 14px; color: var(--text-muted)"
+        >
+          Waiting for telemetry link...
+        </p>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Smart Flood Barrier System. All rights reserved.</p>
+      <p>System Status: <span style="color: #2ecc71">Online</span></p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

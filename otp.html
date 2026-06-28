@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Verification</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .otp-card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .shield-icon {
+            font-size: 48px;
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        p {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #4b5563;
+            margin-bottom: 8px;
+        }
+
+        .otp-input-field {
+            width: 100%;
+            padding: 14px;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 8px;
+            text-align: center;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.2s ease;
+            background-color: #f9fafb;
+        }
+
+        .otp-input-field:focus {
+            border-color: #2563eb;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #1d4ed8;
+        }
+
+        .error-banner {
+            display: none;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #fef2f2;
+            border: 1px solid #fee2e2;
+            color: #dc2626;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="otp-card">
+        <div class="shield-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        
+        <h2>Enter Verification Code</h2>
+        <p>We sent a 6-digit verification security code to your registered email address. Please enter it below to complete authorization.</p>
+        
+        <form action="verify_otp.php" method="POST">
+            <div class="input-group">
+                <label for="otp">One-Time Password</label>
+                <input 
+                    type="text" 
+                    id="otp" 
+                    name="otp" 
+                    class="otp-input-field"
+                    maxlength="6" 
+                    pattern="\d{6}" 
+                    placeholder="••••••" 
+                    required 
+                    autocomplete="off"
+                >
+            </div>
+            
+            <button type="submit" class="btn-submit">Verify Identity</button>
+        </form>
+
+        <div id="error-banner" class="error-banner"></div>
+    </div>
+
+    <script>
+        // Smooth error management parsing
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        const errorBanner = document.getElementById('error-banner');
+
+        if (error === 'invalid') {
+            errorBanner.textContent = 'The security code entered is incorrect.';
+            errorBanner.style.display = 'block';
+        } else if (error === 'expired') {
+            errorBanner.textContent = 'This verification token has expired. Please log in again.';
+            errorBanner.style.display = 'block';
+        }
+    </script>
+</body>
+</html> 
