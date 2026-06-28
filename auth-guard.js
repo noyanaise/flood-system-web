@@ -7,9 +7,9 @@
   fetch("check_session.php")
     .then((response) => response.json())
     .then((session) => {
-      // 1. Bounce unauthorized users
+      // 1. Bounce unauthorized users back to the correct HTML file
       if (!session || !session.logged_in) {
-        window.location.href = "login.php"; // Changed to .php just in case!
+        window.location.href = "login.html"; 
         return;
       }
 
@@ -32,6 +32,6 @@
     })
     .catch((err) => {
       console.error("Session authorization failed:", err);
-      window.location.href = "login.php";
+      window.location.href = "login.html";
     });
 })();
