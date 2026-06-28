@@ -55,7 +55,7 @@
         }
     
         try {
-            new PDO($dsn, $user, $pass, [
+            $pdo = new PDO($dsn, $user, $pass, [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 ]);
     
