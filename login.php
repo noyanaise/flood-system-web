@@ -144,7 +144,7 @@ $mail->SMTPAuth = true;
 $mail->Timeout = 15;
 $mail->SMTPKeepAlive = false;
 $mail->Username = 'gumpaljojo13@gmail.com';
-$mail->Password = 'admin123';
+$mail->Password = 'admin1234567891112';
 $mail->Port = 465;
 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;       
 
@@ -171,7 +171,10 @@ $mail->Debugoutput = 'html';
 set_time_limit(30);
 $_SESSION['user_role'] = $userRow['role'];
 $_SESSION['username'] = $userRow['username'];
-header("Location: index.html");
+$_SESSION['user_id'] = $userRow['id'];
+
+echo "<pre>";
+print_r($_SESSION);
 exit;
 
             
